@@ -23,15 +23,20 @@ const removeSearch = () => {
 // thunk
 export const liveRestaurantSearch = (searchObj) => async (dispatch) => {
 	const { searchInput, locationObj } = searchObj;
-	const res = await csrfFetch(`/api/search`, {
-		method: 'PUT',
-		headers: { 'Content-Type': 'application/json' },
-		body: JSON.stringify({ searchInput, locationObj }),
-	});
-	console.log(res)
-	const result = await res.json();
-
-	dispatch(updateSearch(result));
+	try {
+		const res = await csrfFetch(`/api/search`, {
+			method: 'PUT',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ searchInput, locationObj }),
+		});
+		console.log(res)
+		const result = await res.json();
+		dispatch(updateSearch(result));
+	} catch (error) {
+		console.log('Backend not available - live search disabled');
+		// Dispatch empty results to prevent errors
+		dispatch(updateSearch({}));
+	}
 };
 
 export const clearSearch = () => (dispatch) => {

@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { NavLink, useHistory } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { allRestaurants, oneRestaurant } from '../../store/restaurant';
 import { saveCurrentPage } from '../../store/navigation';
 import LiveStarRatingDisplay from '../LiveStarRatingDisplay/LiveStarRatingDisplay';
@@ -10,7 +10,7 @@ import VisibilitySensor from 'react-visibility-sensor';
 
 function HomePage({ user }) {
 	const dispatch = useDispatch();
-	const history = useHistory();
+	const navigate = useNavigate();
 
 	const topContainerRef = useRef(null);
 	const positionRef = useRef(null);
@@ -42,7 +42,7 @@ function HomePage({ user }) {
 		container6 = containersRef.current[6];
 		container7 = containersRef.current[7];
 
-		window.addEventListener('scroll', () => {
+		const handleScroll = () => {
 			const screenPos = window.innerHeight;
 			const sectionPos1 = positionRef.current
 				? positionRef.current.getBoundingClientRect().top
@@ -97,9 +97,11 @@ function HomePage({ user }) {
 					container7.classList.remove('active');
 				}
 			}
+		};
 
-			return () => window.removeEventListener('scroll', () => {});
-		});
+		window.addEventListener('scroll', handleScroll);
+
+		return () => window.removeEventListener('scroll', handleScroll);
 	});
 
 	// Display review cards be default if screen is big enough
@@ -159,8 +161,8 @@ function HomePage({ user }) {
 		e.preventDefault();
 
 		await dispatch(saveCurrentPage('other'));
-		if (!user) return history.push('/login');
-		return history.push(`/review/restaurant/${restaurant.id}`);
+		if (!user) return navigate('/login');
+	return navigate(`/review/restaurant/${restaurant.id}`);
 	};
 
 	const handleNavRestaurant = async (e, restaurant) => {
@@ -168,7 +170,7 @@ function HomePage({ user }) {
 		e.stopPropagation();
 		await dispatch(oneRestaurant(restaurant.id));
 		dispatch(saveCurrentPage('other'));
-		return history.push(`/restaurants/${restaurant.id}`);
+		return navigate(`/restaurants/${restaurant.id}`);
 	};
 
 	return (

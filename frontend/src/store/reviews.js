@@ -48,18 +48,28 @@ const deleteReview = (id) => {
 // Thunk
 export const oneReview = (reviewId) => async (dispatch) => {
     // const { id } = reviewObj;
-
-    const res = await fetch(`/api/reviews/${reviewId}`)
-    const review = await res.json();
-    console.log('review ====== ', review)
-    dispatch(getReview(review));
+    try {
+        const res = await csrfFetch(`/api/reviews/${reviewId}`)
+        const review = await res.json();
+        console.log('review ====== ', review)
+        dispatch(getReview(review));
+    } catch (error) {
+        console.log('Backend not available - review data not loaded');
+        // Dispatch empty review to prevent errors
+        dispatch(getReview({ id: reviewId }));
+    }
 }
 
 export const getAllRevs = (restaurantId) => async (dispatch) => {
-    const res = await fetch(`/api/reviews/restaurant/${restaurantId}`)
-    const reviews = await res.json();
-
-    dispatch(getAllReviews(reviews));
+    try {
+        const res = await csrfFetch(`/api/reviews/restaurant/${restaurantId}`)
+        const reviews = await res.json();
+        dispatch(getAllReviews(reviews));
+    } catch (error) {
+        console.log('Backend not available - reviews data not loaded');
+        // Dispatch empty reviews to prevent errors
+        dispatch(getAllReviews({}));
+    }
 }
 
 export const newReview = (reviewPayload, userId) => async (dispatch) => {

@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams, useHistory, NavLink } from 'react-router-dom';
+import { useParams, useNavigate, NavLink } from 'react-router-dom';
 import { newRestaurant } from '../../store/restaurant';
 
 const AddRestauntPage = ({ user }) => {
 
-    const history = useHistory();
+    const navigate = useNavigate();
     const dispatch = useDispatch();
 
     const [errors, setErrors] = useState([]);
@@ -47,7 +47,7 @@ const AddRestauntPage = ({ user }) => {
                     if (data && data.errors) setErrors(data.errors);
                     return
                 }
-                history.push(`/`);
+                navigate(`/`);
             })
         }
         return setErrors(['Please complete form before submitting.'])
@@ -117,7 +117,7 @@ const AddRestauntPage = ({ user }) => {
                         <button className="add-restaurant-submit-btn" type="submit" onClick={(e)=>addRestaurant(e)}>
                             <h4 id="add-restaurant-btn">Add New Item</h4>
                         </button>
-                        <NavLink exact to="/" id="home-link">Cancel</NavLink>
+                        <NavLink to="/" id="home-link">Cancel</NavLink>
                     </div>
                 </form>
             </div>

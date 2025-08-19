@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { NavLink, useHistory } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import ProfileButton from './ProfileButton';
 import LocationSearchInput from './LocationSearchInput';
@@ -21,7 +21,7 @@ import './Navigation.css';
 
 
 function Navigation({ isLoaded }) {
-	const history = useHistory();
+	const navigate = useNavigate();
 	const dispatch = useDispatch();
 
 	const [restaurantSearchInput, setRestaurantSearchInput] = useState('');
@@ -95,13 +95,13 @@ function Navigation({ isLoaded }) {
 		await dispatch(clearSearch());
 		setRestaurantSearchInput('');
 		dispatch(saveCurrentPage('other'));
-		history.push(`/restaurants/${res.id}`);
+		navigate(`/restaurants/${res.id}`);
 	};
 
 	const handleAddRestaurantPage = async (e) => {
 		e.preventDefault();
 		await dispatch(saveCurrentPage('other'));
-		history.push(sessionUser ? '/add/restaurant' : '/login');
+		navigate(sessionUser ? '/add/restaurant' : '/login');
 	};
 
 	//Render restaurant search results
@@ -172,7 +172,7 @@ function Navigation({ isLoaded }) {
 		}
 
 		dispatch(saveCurrentPage('other'));
-		history.push(`/search?find_desc=${restaurantSearchInput}`);
+		navigate(`/search?find_desc=${restaurantSearchInput}`);
 	};
 
 	// Set Nav to Home Version
@@ -183,56 +183,59 @@ function Navigation({ isLoaded }) {
 	};
 
 	// Modifying style of NavBar based on current Page
-	useEffect(async () => {
-		const amIHome = window.location.href;
-		// console.log('==========, ', amIHome.endsWith('/'))
-		if (pageType === undefined && amIHome.endsWith('/')) {
-			dispatch(saveCurrentPage('home'))
-		}
-		if (pageType === 'home') {
-			await document
-				.querySelector('.background-slideshow')
-				?.classList.remove('other');
-			await document.querySelector('.nav_container')?.classList.remove('other');
-			await document.querySelector('.nav-gradient')?.classList.remove('other');
-			await document.querySelector('.li-container')?.classList.remove('other');
-			await document
-				.querySelector('.nav-links-home')
-				?.classList.remove('other');
-			await document
-				.querySelector('.search-bar-restaurants-input')
-				?.classList.remove('other');
-			await document.querySelector('.search-btn')?.classList.remove('other');
-			await document
-				.querySelector('.search-bar-restaurant-main')
-				?.classList.remove('other');
-			await document
-				.querySelector('.add-restaurant-link')
-				?.classList.remove('other');
-			await document
-				.querySelector('.nav-links-login')
-				?.classList.remove('other');
-		} else {
-			await document
-				.querySelector('.background-slideshow')
-				?.classList.add('other');
-			await document.querySelector('.nav_container')?.classList.add('other');
-			await document.querySelector('.nav-gradient')?.classList.add('other');
-			await document.querySelector('.li-container')?.classList.add('other');
-			await document.querySelector('.nav-links-home')?.classList.add('other');
-			await document
-				.querySelector('.search-bar-restaurants-input')
-				?.classList.add('other');
+	useEffect(() => {
+		const updateStyles = async () => {
+			const amIHome = window.location.href;
+			// console.log('==========, ', amIHome.endsWith('/'))
+			if (pageType === undefined && amIHome.endsWith('/')) {
+				dispatch(saveCurrentPage('home'))
+			}
+			if (pageType === 'home') {
+				document
+					.querySelector('.background-slideshow')
+					?.classList.remove('other');
+				document.querySelector('.nav_container')?.classList.remove('other');
+				document.querySelector('.nav-gradient')?.classList.remove('other');
+				document.querySelector('.li-container')?.classList.remove('other');
+				document
+					.querySelector('.nav-links-home')
+					?.classList.remove('other');
+				document
+					.querySelector('.search-bar-restaurants-input')
+					?.classList.remove('other');
+				document.querySelector('.search-btn')?.classList.remove('other');
+				document
+					.querySelector('.search-bar-restaurant-main')
+					?.classList.remove('other');
+				document
+					.querySelector('.add-restaurant-link')
+					?.classList.remove('other');
+				document
+					.querySelector('.nav-links-login')
+					?.classList.remove('other');
+			} else {
+				document
+					.querySelector('.background-slideshow')
+					?.classList.add('other');
+				document.querySelector('.nav_container')?.classList.add('other');
+				document.querySelector('.nav-gradient')?.classList.add('other');
+				document.querySelector('.li-container')?.classList.add('other');
+				document.querySelector('.nav-links-home')?.classList.add('other');
+				document
+					.querySelector('.search-bar-restaurants-input')
+					?.classList.add('other');
 
-			await document.querySelector('.search-btn')?.classList.add('other');
-			await document
-				.querySelector('.search-bar-restaurant-main')
-				?.classList.add('other');
-			await document
-				.querySelector('.add-restaurant-link')
-				?.classList.add('other');
-			await document.querySelector('.nav-links-login')?.classList.add('other');
-		}
+				document.querySelector('.search-btn')?.classList.add('other');
+				document
+					.querySelector('.search-bar-restaurant-main')
+					?.classList.add('other');
+				document
+					.querySelector('.add-restaurant-link')
+					?.classList.add('other');
+				document.querySelector('.nav-links-login')?.classList.add('other');
+			}
+		};
+		updateStyles();
 	}, [pageType]);
 
 	// Live Restaurant Search
@@ -268,13 +271,13 @@ function Navigation({ isLoaded }) {
 	// },[])
 
 	// Hide/Show Restaurant
-	useEffect(async () => {
+	useEffect(() => {
 		if (isSelected) {
-			await document
+			document
 				.querySelector('.restaurant-search-results-container')
 				?.classList.remove('hide');
 		} else {
-			await document
+			document
 				.querySelector('.restaurant-search-results-container')
 				?.classList.add('hide');
 		}
@@ -326,7 +329,7 @@ function Navigation({ isLoaded }) {
 							onClick={(e) => {
 								handleNav(e);
 							}}>
-							<NavLink exact to='/' className='nav-links-home' id='home-link'>
+							<NavLink to='/' className='nav-links-home' id='home-link'>
 								Tabl
 							</NavLink>
 						</div>

@@ -51,10 +51,15 @@ const deleteOneRestaurant = (restaurantId) => ({
 
 // Thunk Action
 export const allRestaurants = () => async (dispatch) => {
-	const res = await csrfFetch('/api/restaurants');
-	const data = await res.json();
-
-	dispatch(getRestaurants(data));
+	try {
+		const res = await csrfFetch('/api/restaurants');
+		const data = await res.json();
+		dispatch(getRestaurants(data));
+	} catch (error) {
+		console.log('Backend not available - no restaurants data loaded');
+		// Dispatch empty restaurants object to prevent errors
+		dispatch(getRestaurants({}));
+	}
 };
 
 export const getRestaurantResults = (searchObj) => async (dispatch) => {
@@ -97,11 +102,16 @@ export const getNearByRestaurants = (locationObj) => async (dispatch) => {
 };
 
 export const oneRestaurant = (restaurant) => async (dispatch) => {
-	const res = await fetch(`/api/restaurants/${restaurant}`);
-	const oneRes = await res.json();
-	console.log(oneRes)
-
-	dispatch(getOneRestaurant(oneRes));
+	try {
+		const res = await csrfFetch(`/api/restaurants/${restaurant}`);
+		const oneRes = await res.json();
+		console.log(oneRes)
+		dispatch(getOneRestaurant(oneRes));
+	} catch (error) {
+		console.log('Backend not available - restaurant data not loaded');
+		// Dispatch empty restaurant to prevent errors
+		dispatch(getOneRestaurant({ id: restaurant }));
+	}
 };
 
 export const newRestaurant = (newRestaurant) => async (dispatch) => {

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams, useHistory } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { newReview, getAllRevs } from '../../store/reviews';
 import { oneRestaurant } from '../../store/restaurant';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -8,7 +8,7 @@ import LiveStarRatingDisplaySingle from '../LiveStarRatingDisplaySingle/LiveStar
 
 function AddReviewForm({ user }) {
 	const dispatch = useDispatch();
-	const history = useHistory();
+	const navigate = useNavigate();
 	const { selectedRating, id } = useParams();
 
 
@@ -55,7 +55,7 @@ function AddReviewForm({ user }) {
 		if (rating > 0 && body) {
 			await dispatch(newReview(reviewPayload, userId));
 			await dispatch(getAllRevs(restaurantId));
-			history.push(`/restaurants/${id}`);
+			navigate(`/restaurants/${id}`);
 		};
 	};
 

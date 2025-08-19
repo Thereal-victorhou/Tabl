@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import * as sessionActions from '../../store/session';
 
 function SignupFormPage() {
@@ -19,7 +19,7 @@ function SignupFormPage() {
 	const [dayTracker, setDayTracker] = useState('');
 	const [yearTracker, setYearTracker] = useState('');
 
-	if (sessionUser) return <Redirect to='/' />;
+	if (sessionUser) return <Navigate to='/' />;
 
 	const handleSubmit = (e) => {
 		e.preventDefault();

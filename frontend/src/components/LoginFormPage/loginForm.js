@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import * as sessionActions from '../../store/session';
 import { useDispatch, useSelector } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { saveCurrentPage } from '../../store/navigation';
 
 function LoginFormPage() {
@@ -14,7 +14,7 @@ function LoginFormPage() {
   if (sessionUser) {
     dispatch(saveCurrentPage('home'))
     return (
-      <Redirect to="/" />
+      <Navigate to="/" replace />
     );
   }
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams, useHistory, NavLink } from 'react-router-dom';
+import { useParams, useNavigate, NavLink } from 'react-router-dom';
 import RecommendedReviews from './recommendedReviews';
 import RestaurantHours from './RestaurantHours';
 import AnimatedRatingDisplay from './AnimatedRatingDisplay';
@@ -16,7 +16,7 @@ import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 
 
 function RestaurantPage({ user }) {
-	const history = useHistory();
+	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const { id } = useParams();
 
@@ -74,16 +74,16 @@ function RestaurantPage({ user }) {
 		switch (e.target.id) {
 			case 'add-review':
 				if (!user) {
-					return history.push(`/login`);
+					return navigate(`/login`);
 				}
 				// console.log('id  ', id)
 				// await dispatch(oneRestaurant(Number(id)));
 				await dispatch(saveCurrentPage('other'));
-				return history.push(`/review/restaurant/${id}`);
+				return navigate(`/review/restaurant/${id}`);
 
 			case 'edit':
 				await dispatch(oneReview(reviewId));
-				history.push(`/edit/review/${reviewId}`);
+				navigate(`/edit/review/${reviewId}`);
 				break;
 
 			case 'delete':
@@ -98,7 +98,7 @@ function RestaurantPage({ user }) {
 		e.preventDefault();
 
 		await dispatch(deleteRestaurant(currentRestaurant[0]?.id));
-		history.push('/');
+		navigate('/');
 	};
 
 	const checkEdit = () => {
@@ -121,7 +121,7 @@ function RestaurantPage({ user }) {
 		}
 	};
 
-	// Redirect to Google Maps until Mapping feature is complete
+	// Navigate to Google Maps until Mapping feature is complete
 	// const sendToGoogleMaps = (latitude, longitude) => {
 	// 	const latlng = { lat: latitude, lng: longitude };
 	// 	const geocoder = new window.google.maps.Geocoder();

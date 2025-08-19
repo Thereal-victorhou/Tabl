@@ -1,13 +1,13 @@
 import React, {useState, useEffect} from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams, useHistory, NavLink } from 'react-router-dom';
+import { useParams, useNavigate, NavLink } from 'react-router-dom';
 import { oneReview, deleteOneReview } from '../../store/reviews';
 import * as sessionActions from '../../store/session';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 
 function FunctionalButtonModal ({ user, review }){
 
-  const history = useHistory();
+  const navigate = useNavigate();
 	const dispatch = useDispatch();
 
   const [showMenu, setShowMenu] = useState(false);
@@ -40,7 +40,7 @@ function FunctionalButtonModal ({ user, review }){
 		switch (e.target.getAttribute('id')) {
 			case 'edit':
 				await dispatch(oneReview(reviewId));
-				history.push(`/edit/review/${reviewId}`);
+				navigate(`/edit/review/${reviewId}`);
       // console.log('current review ======= ', review)
 				break;
 			case 'delete':

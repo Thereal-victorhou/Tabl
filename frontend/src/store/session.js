@@ -50,10 +50,15 @@ export const signup = (user) => async (dispatch) => {
 };
 
 export const restoreUser = () => async dispatch => {
-  const res = await csrfFetch('/api/session');
-  const data = await res.json();
-  dispatch(setUser(data.user));
-  return res;
+  try {
+    const res = await csrfFetch('/api/session');
+    const data = await res.json();
+    dispatch(setUser(data.user));
+    return res;
+  } catch (error) {
+    console.log('Backend not available - running in frontend-only mode');
+    return null;
+  }
 };
 
 export const logout = () => async (dispatch) => {

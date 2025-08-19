@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Route, Switch } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import LoginFormPage from "./components/LoginFormPage";
 import SignupFormPage from "./components/SignupFormPage";
 import * as sessionActions from "./store/session";
@@ -38,45 +38,20 @@ function App() {
 
         <Navigation isLoaded={isLoaded} />
         {isLoaded && (
-          <Switch>
-            <Route exact path="/">
-              <HomePage user={user}/>
-            </Route>
-            <Route path="/login">
-              <LoginFormPage />
-            </Route>
-            <Route path="/signup">
-              <SignupFormPage />
-            </Route>
-            <Route path='/settings'>
-              <SettingsPage />
-            </Route>
-            <Route path="/restaurants/:id">
-              <RestaurantPage user={user}/>
-            </Route>
-            <Route path='/add/restaurant'>
-              <AddRestaurantPage user={user}/>
-            </Route>
-            <Route path='/edit/restaurant/:id'>
-              <EditRestaurantPage user={user}/>
-            </Route>
-            <Route path="/review/restaurant/:id">
-              <AddReviewForm user={user}/>
-            </Route>
-            <Route path="/review/rating/:selectedRating/restaurant/:id">
-              <AddReviewForm user={user}/>
-            </Route>
-
-            <Route path="/edit/review/:id">
-              <EditReviewForm user={user}/>
-            </Route>
-            <Route path="/search">
-              <SearchResultPage />
-            </Route>
-            {/* <Route>
-              <h2>Page Not Found</h2>
-            </Route> */}
-          </Switch>
+          <Routes>
+            <Route path="/" element={<HomePage user={user}/>} />
+            <Route path="/login" element={<LoginFormPage />} />
+            <Route path="/signup" element={<SignupFormPage />} />
+            <Route path='/settings' element={<SettingsPage />} />
+            <Route path="/restaurants/:id" element={<RestaurantPage user={user}/>} />
+            <Route path='/add/restaurant' element={<AddRestaurantPage user={user}/>} />
+            <Route path='/edit/restaurant/:id' element={<EditRestaurantPage user={user}/>} />
+            <Route path="/review/restaurant/:id" element={<AddReviewForm user={user}/>} />
+            <Route path="/review/rating/:selectedRating/restaurant/:id" element={<AddReviewForm user={user}/>} />
+            <Route path="/edit/review/:id" element={<EditReviewForm user={user}/>} />
+            <Route path="/search" element={<SearchResultPage />} />
+            {/* <Route path="*" element={<h2>Page Not Found</h2>} /> */}
+          </Routes>
         )}
       </LoadScript>
     </>

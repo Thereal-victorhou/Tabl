@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams, useHistory, NavLink } from 'react-router-dom';
+import { useParams, useNavigate, NavLink } from 'react-router-dom';
 import { oneReview, getAllRevs, deleteOneReview } from '../../store/reviews';
 import { starRatingSmall } from '../Utils/DisplayStarRating';
 import FunctionalButtonModal from './FunctionalButtonModal';
@@ -8,7 +8,7 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 
 
 function RecommendedReviews({ user, restaurantId, restaurantReviews}) {
-  const history = useHistory();
+  const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const { id } = useParams();
 
@@ -21,7 +21,7 @@ function RecommendedReviews({ user, restaurantId, restaurantReviews}) {
 		switch (e.target.getAttribute('id')) {
 			case 'edit':
 				await dispatch(oneReview(reviewId));
-				history.push(`/edit/review/${reviewId}`);
+				navigate(`/edit/review/${reviewId}`);
 
 				break;
 			case 'delete':

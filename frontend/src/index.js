@@ -2,7 +2,7 @@ import React from 'react';
 
 import './index.css';
 
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App';
@@ -18,7 +18,9 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 if (process.env.NODE_ENV !== 'production') {
-  restoreCSRF();
+  restoreCSRF().catch(() => {
+    console.log('Backend not available - CSRF token not restored');
+  });
 
   window.csrfFetch = csrfFetch;
   window.store = store;
@@ -35,9 +37,10 @@ function Root() {
   );
 }
 
-ReactDOM.render(
+const container = document.getElementById('root');
+const root = createRoot(container);
+root.render(
   <React.StrictMode>
     <Root />
-  </React.StrictMode>,
-  document.getElementById('root')
+  </React.StrictMode>
 );

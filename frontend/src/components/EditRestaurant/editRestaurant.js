@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams, useHistory, NavLink } from 'react-router-dom';
+import { useParams, useNavigate, NavLink } from 'react-router-dom';
 import { oneRestaurant, editRestaurant } from '../../store/restaurant';
 
 const EditRestaurantPage = ({ user }) => {
 
-    const history = useHistory();
+    const navigate = useNavigate();
     const dispatch = useDispatch();
 
     const currentRestaurant = useSelector(state => Object.values(state.restaurant));
@@ -72,7 +72,7 @@ const EditRestaurantPage = ({ user }) => {
 
             })
             .then(()=> alert('Restaurant information has been updated.'))
-            .then(() => history.push(`/restaurants/${id}`))
+            .then(() => navigate(`/restaurants/${id}`))
 
         }
         return setErrors(['Please complete form before submitting.'])
@@ -142,7 +142,7 @@ const EditRestaurantPage = ({ user }) => {
                         <button className="edit-restaurant-submit-btn" type="submit" onClick={(e)=>editOneRestaurant(e)}>
                             <h4 id="edit-restaurant-btn">Submit Changes</h4>
                         </button>
-                        <NavLink exact to={`/restaurants/${restaurantId}`} id="home-link">Cancel</NavLink>
+                        <NavLink to={`/restaurants/${restaurantId}`} id="home-link">Cancel</NavLink>
                     </div>
                 </form>
             </div>

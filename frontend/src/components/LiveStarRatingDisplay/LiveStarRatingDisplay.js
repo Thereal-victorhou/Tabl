@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { oneRestaurant } from '../../store/restaurant';
 import { saveRating } from '../../store/ratings';
 
@@ -13,7 +13,7 @@ import bigFiveStar from '../../images/regular_5@2x.png';
 
 function LiveStarRatingDisplay({ restaurant, number, user}) {
 	const dispatch = useDispatch();
-	const history = useHistory();
+	const navigate = useNavigate();
 	const [stars, setStars] = useState(bigZeroStar);
 
   // Reset stars to default
@@ -50,8 +50,8 @@ function LiveStarRatingDisplay({ restaurant, number, user}) {
     //  console.log('starVal ===== ',starVal)
     // console.log('position ===== ',position)
     // console.log( '=================================')
-    if (!user) return history.push('/login');
-    history.push(`/review/rating/${starVal}/restaurant/${restaurant.id}`)
+    if (!user) return navigate('/login');
+    navigate(`/review/rating/${starVal}/restaurant/${restaurant.id}`)
   };
 
 	return (

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { GoogleMap, OverlayView } from '@react-google-maps/api';
 import { starRatingResults } from '../Utils/DisplayStarRating';
 import { saveCurrentPage } from '../../store/navigation';
@@ -21,7 +21,7 @@ function ResultsMap({ restaurantLocations, location }) {
 	}
 
   const dispatch = useDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
 
 	const mapRef = useRef(null);
 	const overlayRefs = useRef([]);
@@ -140,7 +140,7 @@ function ResultsMap({ restaurantLocations, location }) {
 
 	const sendToRestaurant = (restaurant) => {
     dispatch(saveCurrentPage('other'));
-		history.push(`/restaurants/${restaurant.id}`);
+		navigate(`/restaurants/${restaurant.id}`);
   };
 
 	// Set current idx

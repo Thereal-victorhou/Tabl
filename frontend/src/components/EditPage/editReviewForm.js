@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams, useHistory } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { editOldReview, getAllRevs } from '../../store/reviews';
 import { oneReview } from '../../store/reviews';
 import { oneRestaurant } from '../../store/restaurant';
@@ -8,7 +8,7 @@ import LiveStarRatingDisplaySingle from '../LiveStarRatingDisplaySingle/LiveStar
 
 function EditReviewForm({ user }) {
 	const dispatch = useDispatch();
-	const history = useHistory();
+	const navigate = useNavigate();
 	const { id } = useParams();
 
 	const singleReview = useSelector((state) => state?.review[id]);
@@ -62,7 +62,7 @@ function EditReviewForm({ user }) {
 		if (rating > 0 && body) {
 			await dispatch(editOldReview(reviewPayload));
 			await dispatch(getAllRevs(restaurantId))
-			history.push(`/restaurants/${restaurantId}`);
+			navigate(`/restaurants/${restaurantId}`);
 		}
 	};
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation, useHistory, NavLink } from 'react-router-dom';
+import { useLocation, useNavigate, NavLink } from 'react-router-dom';
 import ResultsMap from './resultsMap';
 import { getSearchResults } from '../../store/searchResult';
 import { saveCurrentPage } from '../../store/navigation';
@@ -11,7 +11,7 @@ import { starRatingResults } from '../Utils/DisplayStarRating';
 
 const SearchResultPage = () => {
 	const dispatch = useDispatch();
-	const history = useHistory();
+	const navigate = useNavigate();
 
 	const searchRes = useSelector((state) => Object.values(state.searchResults));
 	const location = useSelector((state) => state.location);
@@ -38,7 +38,7 @@ const SearchResultPage = () => {
 		e.preventDefault();
 
 		dispatch(saveCurrentPage('other'));
-		history.push(`/restaurants/${resId}`);
+		navigate(`/restaurants/${resId}`);
 	};
 
 	const isResults = () => {

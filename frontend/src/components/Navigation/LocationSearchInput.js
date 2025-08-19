@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { NavLink, useHistory } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { LoadScript } from '@react-google-maps/api';
 import PlacesAutocomplete, {
@@ -122,39 +122,47 @@ function LocationSearchInput({ inputSelection, sessionToken, handleUpdateLocatio
 	}, [suggestedLocations]);
 
 	// hide/show location results
-	useEffect(async () => {
-		if (inputSelection === true) {
-			await document
-				.querySelector('.location-search-results-container')
-				?.classList.remove('hide');
-		} else {
-			await document
-				.querySelector('.location-search-results-container')
-				?.classList.add('hide');
-		}
+	useEffect(() => {
+		const updateLocationResults = async () => {
+			if (inputSelection === true) {
+				await document
+					.querySelector('.location-search-results-container')
+					?.classList.remove('hide');
+			} else {
+				await document
+					.querySelector('.location-search-results-container')
+					?.classList.add('hide');
+			}
 
-		if (inputSelection === true && pageType === 'other')
-			await document
-				.querySelector('.search-bar-location.other')
-				?.classList.add('live');
-		else
-			await document
-				.querySelector('.search-bar-location.other')
-				?.classList.remove('live');
+			if (inputSelection === true && pageType === 'other')
+				await document
+					.querySelector('.search-bar-location.other')
+					?.classList.add('live');
+			else
+				await document
+					.querySelector('.search-bar-location.other')
+					?.classList.remove('live');
+		};
+
+		updateLocationResults();
 	}, [pageType, inputSelection]);
 
 
 	// Switch styling for location input based on page
-	useEffect(async () => {
-		if (pageType === 'home') {
-			await document
-				.querySelector('.search-bar-location')
-				?.classList.remove('other');
-		} else {
-			await document
-				.querySelector('.search-bar-location')
-				?.classList.add('other');
-		}
+	useEffect(() => {
+		const updateLocationStyling = async () => {
+			if (pageType === 'home') {
+				await document
+					.querySelector('.search-bar-location')
+					?.classList.remove('other');
+			} else {
+				await document
+					.querySelector('.search-bar-location')
+					?.classList.add('other');
+			}
+		};
+
+		updateLocationStyling();
 	}, [pageType]);
 
 		return (

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import * as sessionActions from '../../store/session';
 import Avatar from '@mui/material/Avatar';
@@ -13,7 +13,7 @@ import './ProfileButton.css';
 
 function ProfileButton({ user }) {
 	const dispatch = useDispatch();
-	const history = useHistory();
+	const navigate = useNavigate();
 	const [showMenu, setShowMenu] = useState(false);
 
 	// const newAvatar = randAvatar();
@@ -42,7 +42,7 @@ function ProfileButton({ user }) {
 
 	const settings = (e) => {
 		e.preventDefault()
-		history.push('/settings')
+		navigate('/settings')
 	}
 
 	return (
